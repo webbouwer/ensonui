@@ -1,4 +1,12 @@
+
 window.fn = {};
+
+// register as PWA
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(() => console.log("Service Worker Registered"))
+    .catch(e => console.log(e));
+}
 
 window.fn.toggleMenu = function () {
   document.getElementById('appSplitter').right.toggle();
@@ -23,4 +31,4 @@ window.fn.pushPage = function (page, anim) {
   } else {
     document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title } });
   }
-};
+}; 
