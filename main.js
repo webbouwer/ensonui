@@ -3,10 +3,14 @@ window.fn = {};
 window.fn.toggleMenu = function () {
   document.getElementById('appSplitter').right.toggle();
 };
+window.fn.toggleContact = function () {
+  document.getElementById('appSplitter').left.toggle();
+};
 
 window.fn.loadView = function (index) {
   document.getElementById('appTabbar').setActiveTab(index);
   document.getElementById('sidemenu').close();
+  document.getElementById('contactmenu').close();
 };
 
 window.fn.loadLink = function (url) {

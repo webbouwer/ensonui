@@ -2,29 +2,339 @@
 <html class="no-js" lang="en">
 
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Document</title>
+  <title>Webbouwer App Setup - EnsonUI Javascript</title>
 
-    <meta name="description" content="">
+  <meta name="description" content="">
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
 
-    <!--
+  <!--
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     -->
-    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css" />
-    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.css" />
-    <script src="https://unpkg.com/onsenui/js/onsenui.js"></script>
-    
-    <script src="main.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css" />
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.css" /> 
+  <script src="https://unpkg.com/onsenui/js/onsenui.js"></script>
+
+  <script src="main.js"></script>
 </head>
 
 <body>
-    <!-- start html5 content -->
+
+  <ons-navigator id="appNavigator" swipeable swipe-target-width="80px">
+
+    <ons-page>
+
+      <ons-splitter id="appSplitter">
+        <ons-splitter-side id="contactmenu" page="contactmenu.html" swipeable side="left" collapse=""
+          width="260px"></ons-splitter-side>
+        <ons-splitter-side id="sidemenu" page="sidemenu.html" swipeable side="right" collapse=""
+          width="260px"></ons-splitter-side>
+        <ons-splitter-content page="tabbar.html"></ons-splitter-content>
+
+      </ons-splitter>
+
+    </ons-page>
+
+  </ons-navigator>
+
+  <template id="tabbar.html">
+
+    <ons-page id="tabbar-page">
+
+      <ons-toolbar>
+        <div class="toolbar__left">
+          <span class="toolbar-button" onclick="fn.toggleContact()">
+            <img height="40" width="auto" src="https://oddsized.com/brand/oddsized_brand_icon_blue-64x64.png"> 
+          </span>
+        </div>
+        <div class="center">Home</div>
+        <div class="right">
+          <ons-toolbar-button onclick="fn.toggleMenu()">
+            <ons-icon icon="ion-ios-menu, material:md-menu"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+      </ons-toolbar>
+
+      <ons-tabbar swipeable id="appTabbar" position="auto">
+        <ons-tab label="Home" icon="ion-ios-home" page="home.html" active></ons-tab>
+        <ons-tab label="Discover" icon="ion-ios-search" page="discover.html"></ons-tab>
+        <ons-tab label="About" icon="ion-ios-contact" page="about.html"></ons-tab>
+      </ons-tabbar>
+
+      <script>
+        ons.getScriptPage().addEventListener('prechange', function (event) {
+          if (event.target.matches('#appTabbar')) {
+            event.currentTarget.querySelector('ons-toolbar .center').innerHTML = event.tabItem.getAttribute('label');
+          }
+        });
+
+      </script>
+
+    </ons-page>
+
+  </template>
+
+  <template id="sidemenu.html">
+    <ons-page>
+      <div class="profile-pic">
+        <img src="https://oddsized.com/brand/oddsized_interactive_bizz_logo2022.png">
+      </div>
+
+      <ons-list-title>Access</ons-list-title>
+      <ons-list>
+        <ons-list-item onclick="fn.loadView(0)">
+          <div class="left">
+            <ons-icon fixed-width class="list-item__icon" icon="ion-ios-home, material:md-home"></ons-icon>
+          </div>
+          <div class="center">
+            Home
+          </div>
+          <div class="right">
+            <ons-icon icon="fa-link"></ons-icon>
+          </div>
+        </ons-list-item>
+        <ons-list-item onclick="fn.loadView(1)">
+          <div class="left">
+            <ons-icon fixed-width class="list-item__icon" icon="ion-ios-create, material:md-edit"></ons-icon>
+          </div>
+          <div class="center">
+            Discover
+          </div>
+          <div class="right">
+            <ons-icon icon="fa-link"></ons-icon>
+          </div>
+        </ons-list-item>
+        <ons-list-item onclick="fn.loadView(2)">
+          <div class="left">
+            <ons-icon fixed-width class="list-item__icon" icon="ion-ios-film, material: md-movie-alt"></ons-icon>
+          </div>
+          <div class="center">
+            About
+          </div>
+          <div class="right">
+            <ons-icon icon="fa-link"></ons-icon>
+          </div>
+        </ons-list-item>
+      </ons-list>
+      
+      <script>
+        ons.getScriptPage().onInit = function() {
+          // Set ons-splitter-side animation
+          this.parentElement.setAttribute('animation', ons.platform.isAndroid() ? 'overlay' : 'reveal');
+        };
+
+      </script>
+
+      <style>
+        .profile-pic {
+          width: 200px;
+          /*
+          background-color: transparent;
+          border: 1px solid #999;
+          border-radius: 4px;
+          */
+          margin: 20px auto 10px;
+        }
+
+        .profile-pic>img {
+          display: block;
+          max-width: 100%;
+        }
+
+        ons-list-item {
+          color: #444;
+        }
+
+      </style>
+    </ons-page>
+  </template>
+
+
+  <template id="contactmenu.html">
+    <ons-page id="contactmenu-page">
+    
+      <ons-if platform="ios other">
+        <div id="contactmenu-toolbar">
+          <div class="header-part">
+            <ons-button modifier="quiet">
+              <img style="height: 40px; width: 40px" class="profile-thumbnail" src="https://placekitten.com/g/70/70">
+            </ons-button>
+            <ons-button modifier="quiet">
+              <ons-icon icon="ion-ios-more-outline" size="40px"></ons-icon>
+            </ons-button>
+          </div>
+          <div class="header-part"><b>Ugly Kitty</b></div>
+          <div class="header-part subheader" style="margin-top: 2px">@uKitty</div>
+          <div class="header-part subheader" style="margin-top: 8px">
+            <span><b>10k</b>&nbsp;following</span>
+            <span style="margin-left: 10px"><b>0</b>&nbsp;followers</span>
+          </div>
+        </div>
+      </ons-if>
+      
+      <ons-if platform="android">
+        <div id="contactmenu-toolbar-md">
+          <div class="header-part">
+            <ons-button modifier="quiet">
+              <img style="height: 40px; width: 40px" class="profile-thumbnail" src="https://placekitten.com/g/70/70">
+            </ons-button>
+          </div>
+          <div class="header-part">Ugly Kitty</div>
+          <div class="header-part subheader" style="margin-top: 2px">@uKitty</div>
+        </div>
+      </ons-if>
+      
+      <div class="content">
+        <ons-list id="middle-menu">
+
+          <ons-list-item modifier="nodivider" tappable>
+            <div class="left">
+              <ons-icon icon="ion-ios-person"></ons-icon>
+            </div>
+            <div class="center">
+              Profile
+            </div>
+          </ons-list-item>
+          <ons-list-item modifier="nodivider" tappable>
+            Help Center
+          </ons-list-item>
+
+        </ons-list>
+      </div>
+
+      <ons-bottom-toolbar id="bottom-toolbar">
+        <ons-if platform="ios">
+          On ios
+        </ons-if>
+        <ons-if platform="android other">
+          Not on ios
+        </ons-if>
+      </ons-bottom-toolbar>
+      
+  
+      <style type="text/css">
+        #contactmenu-toolbar {
+          background-color: white;
+          display: block;
+          height: 130px;
+          padding: 0px 15px;
+        }
+  
+        #contactmenu-toolbar-md {
+          background-color: white;
+          display: block;
+          height: 110px;
+          padding: 0px 15px;
+        }
+  
+        #contactmenu-page .page__content:not(.page--material__content) {
+          top: 130px;
+        }
+  
+        #contactmenu-page .page__content.page--material__content {
+          top: 111px;
+        }
+  
+        #contactmenu-page .page__background {
+          display: none;
+        }
+  
+        .header-part {
+          width: 100%;
+        }
+  
+        .header-part ons-button:first-child {
+          padding: 4px 0 0 4px;
+        }
+  
+        #contactmenu-toolbar .header-part ons-button:last-child {
+          float: right;
+          margin-right: 5px;
+        }
+  
+        .header-part.subheader {
+          font-size: 12px;
+        }
+  
+        #middle-menu {
+          background-image: none;
+        }
+  
+        #bottom-toolbar ons-button {
+          margin: auto 15px;
+        }
+      </style>
+  
+      <script>
+        document.getElementById('contactmenu-page').onInit = function () {
+          if (!ons.platform.isAndroid()) {
+            document.getElementById('contactmenu-page').classList.add('page-with-bottom-toolbar');
+          };
+        };
+      </script>
+    </ons-page>
+  </template>
+
+
+  <template id="home.html">
+
+    <ons-page id="home-page">
+      <p class="intro">
+        Homepage<br>
+      </p>
+      <style>
+        .intro {
+          text-align: center;
+          padding: 0 20px;
+          margin-top: 40px;
+        }
+
+      </style>
+    </ons-page>
+  </template>
+
+  <template id="discover.html">
+
+    <ons-page id="discover-page">
+      <p class="intro">
+        Discover<br>
+      </p>
+      <style>
+        .intro {
+          text-align: center;
+          padding: 0 20px;
+          margin-top: 40px;
+        }
+
+      </style>
+    </ons-page>
+  </template>
+
+  <template id="about.html">
+    <ons-page id="about-page">
+      <p class="intro">
+        About<br>
+      </p>
+      <style>
+        .intro {
+          text-align: center;
+          padding: 0 20px;
+          margin-top: 40px;
+        }
+
+      </style>
+    </ons-page>
+  </template>
+
+</body>
+
+</html>
+<!-- example content 
 
 <ons-navigator id="appNavigator" swipeable swipe-target-width="80px">
     <ons-page>
@@ -652,9 +962,9 @@
         </ons-list-item>
       </ons-list>
   
-      <!-- Components -->
+      Components 
       <ons-dialog id="lorem-dialog" cancelable>
-        <!-- Optional page. This could contain a Navigator as well. -->
+         Optional page. This could contain a Navigator as well. 
         <ons-page>
           <ons-toolbar>
             <div class="center">Simple Dialog</div>
@@ -925,7 +1235,9 @@
   </template>
   
   <template id="loadMore.html">
-    <!-- Load more items on scroll bottom -->
+    
+    
+    Load more items on scroll bottom 
     <ons-page id="load-more-page" on-infinite-scroll="fn.loadMore">
       <p class="intro">
         Useful for loading more items when the scroll reaches the bottom of the page, typically after an asynchronous API call.<br><br>
@@ -968,7 +1280,7 @@
   </template>
   
   <template id="lazyRepeat.html">
-    <!-- Lazy load thousands of items -->
+   Lazy load thousands of items 
     <ons-page id="lazy-repeat-page">
       <p class="intro">
         Automatically unloads items that are not visible and loads new ones. Useful when the list contains thousands of items.<br><br>
@@ -1163,3 +1475,4 @@
       border-left: 1px solid #bbb;
     }
   </style>
+-->
