@@ -1,6 +1,4 @@
-# ensonui
-App development with Enson UI
+# onsenui
+App development with onsen UI
 
-[ ] Setup minimal app
-
-Example code at https://onsen.io/playground/
+https://onsen.io/playground/
